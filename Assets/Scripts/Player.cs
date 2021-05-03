@@ -24,6 +24,9 @@ public class Player : MonoBehaviour
     [SerializeField] private int _shieldLives = 0;
     [SerializeField] private int _score;
 
+    [SerializeField] private int _ammoAmount = 15;
+    [SerializeField] private int _tripleShotAmmo = 3;
+
     [SerializeField] private bool _tripleShotActive = false;
     [SerializeField] private bool _speedBoostEnabled = false;
     [SerializeField] private bool _shieldActive = false;
@@ -51,6 +54,7 @@ public class Player : MonoBehaviour
 
         healthBar = GameObject.FindGameObjectWithTag("ShieldHealth").GetComponent<HealthBar>();
         healthBar.SetHealth(0);
+        ui_Manager.UpdateAmmo(15);
 
         if(_playerAudioSource == null)
         {
@@ -125,19 +129,25 @@ public class Player : MonoBehaviour
 
     void ShootLaser()
     {
-        _canFire = Time.time + _fireRate;
-
-        if (_tripleShotActive == true)
+        //Ammo Count
+        if(_ammoAmount > 0)
         {
-            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
-        }
-        else
-        {          
-            Instantiate(_laserPrefab, _laserSpawn.transform.position, Quaternion.identity);
-        }
+            _canFire = Time.time + _fireRate;
 
-        _playerAudioSource.Play();
+            if (_ammoAmount == 3 && _tripleShotActive == true)
+            {
+                Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+                _ammoAmount -= _tripleShotAmmo;
+            }
+            else
+            {          
+                Instantiate(_laserPrefab, _laserSpawn.transform.position, Quaternion.identity);
+                _ammoAmount--;
+            }
 
+            ui_Manager.UpdateAmmo(_ammoAmount);
+            _playerAudioSource.Play();
+        }       
     }
 
     public void TripleShotActive()

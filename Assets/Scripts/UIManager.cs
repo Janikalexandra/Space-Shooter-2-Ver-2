@@ -13,6 +13,13 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Image _LivesImg;
 
+    //Ammo amount
+    [SerializeField]
+    private Text _ammoText;
+
+    [SerializeField]
+    private Text _noAmmoText;
+
     [SerializeField]
     private Text _gameOverText;
 
@@ -31,6 +38,8 @@ public class UIManager : MonoBehaviour
     {
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
+        _noAmmoText.gameObject.SetActive(false);
+
         _gameManager = GameObject.Find("GameManager").GetComponent<Game_Manager>();
 
         if(_gameManager == null)
@@ -38,13 +47,23 @@ public class UIManager : MonoBehaviour
             Debug.LogError("Game Manager is null!");
         }
 
-        //assign text component to handle
         _scoreText.text = "Score: " + 0;
     }
 
     public void UpdateScore(int playerScore)
     {
         _scoreText.text = "Score: " + playerScore.ToString();
+    }
+
+    //Ammo update
+    public void UpdateAmmo(int ammoAmount)
+    {
+        _ammoText.text = "Ammo: " + ammoAmount.ToString();
+
+        if(ammoAmount <= 0)
+        {
+            NoAmmoSequence();
+        }
     }
 
     public void UpdateLives(int currentLives)
@@ -55,6 +74,12 @@ public class UIManager : MonoBehaviour
         {
             GameOverSequence();
         }
+    }
+
+    void NoAmmoSequence()
+    {
+        _noAmmoText.gameObject.SetActive(true);
+        StartCoroutine(NoAmmoFlickerRoutine());
     }
 
     void GameOverSequence()
@@ -72,6 +97,17 @@ public class UIManager : MonoBehaviour
             _gameOverText.text = "GAME OVER";
             yield return new WaitForSeconds(0.5f);
             _gameOverText.text = "";
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    IEnumerator NoAmmoFlickerRoutine()
+    {
+        while (true)
+        {
+            _noAmmoText.text = "NO AMMO";
+            yield return new WaitForSeconds(0.5f);
+            _noAmmoText.text = "";
             yield return new WaitForSeconds(0.5f);
         }
     }
