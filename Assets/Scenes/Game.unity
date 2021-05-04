@@ -493,10 +493,10 @@ RectTransform:
   m_Father: {fileID: 661072509}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 328.61304, y: 179.4}
-  m_SizeDelta: {x: 117.4565, y: 30}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -71.38696, y: -45.600006}
+  m_SizeDelta: {x: 117.45648, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &637893218
 GameObject:
@@ -696,7 +696,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 839463749}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5b17a0088dcdf924fa92da5af1e1be07, type: 3}
@@ -1167,6 +1167,7 @@ MonoBehaviour:
   _lives: 3
   _shieldLives: 0
   _score: 0
+  _ammoPickUp: 3
   _ammoAmount: 15
   _tripleShotAmmo: 3
   _tripleShotActive: 0
@@ -1402,10 +1403,10 @@ RectTransform:
   m_Father: {fileID: 661072509}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -306.1, y: -197.2}
-  m_SizeDelta: {x: 100, y: 18.383}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 93.899994, y: 27.800003}
+  m_SizeDelta: {x: 100, y: 18.382996}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1173273927
 MonoBehaviour:
@@ -2053,6 +2054,7 @@ MonoBehaviour:
   - {fileID: 6201837356027165525, guid: df3b6ddd7996de44e872f25d3e62b62a, type: 3}
   - {fileID: 7322144003924125254, guid: 39ac07acfdb530344bd57073411892c5, type: 3}
   - {fileID: 2422941180568138861, guid: 75bf6cbb1496afb4c8b8258f36dc774c, type: 3}
+  - {fileID: 7859373550381094175, guid: 5b3a596504ccaf14f840b6056973aa06, type: 3}
   _stopSpawning: 0
 --- !u!1 &1687960588
 GameObject:

@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] private int _shieldLives = 0;
     [SerializeField] private int _score;
 
+    [SerializeField] private int _ammoPickUp = 3;
     [SerializeField] private int _ammoAmount = 15;
     [SerializeField] private int _tripleShotAmmo = 3;
 
@@ -134,7 +135,7 @@ public class Player : MonoBehaviour
         {
             _canFire = Time.time + _fireRate;
 
-            if (_ammoAmount == 3 && _tripleShotActive == true)
+            if (_ammoAmount >= 3 && _tripleShotActive == true)
             {
                 Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
                 _ammoAmount -= _tripleShotAmmo;
@@ -148,6 +149,30 @@ public class Player : MonoBehaviour
             ui_Manager.UpdateAmmo(_ammoAmount);
             _playerAudioSource.Play();
         }       
+    }
+
+    //Pickup more ammo
+    public void AmmoPickUp()
+    {
+
+        if(_ammoAmount <= 12)
+        {          
+            _ammoAmount += _ammoPickUp;
+        }
+        else if(_ammoAmount == 13)
+        {
+            _ammoAmount += 2;
+        }
+        else if(_ammoAmount == 14)
+        {
+            _ammoAmount += 1;
+        }
+        else
+        {         
+            _ammoAmount = 15;
+        }
+
+        ui_Manager.UpdateAmmo(_ammoAmount);
     }
 
     public void TripleShotActive()
