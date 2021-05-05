@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1167,6 +1167,7 @@ MonoBehaviour:
   _lives: 3
   _shieldLives: 0
   _score: 0
+  _healthPickup: 1
   _ammoPickUp: 3
   _ammoAmount: 15
   _tripleShotAmmo: 3
@@ -2055,6 +2056,7 @@ MonoBehaviour:
   - {fileID: 7322144003924125254, guid: 39ac07acfdb530344bd57073411892c5, type: 3}
   - {fileID: 2422941180568138861, guid: 75bf6cbb1496afb4c8b8258f36dc774c, type: 3}
   - {fileID: 7859373550381094175, guid: 5b3a596504ccaf14f840b6056973aa06, type: 3}
+  - {fileID: 1893578176797731319, guid: 14e268f9820e73d4e863ba45baf48c4e, type: 3}
   _stopSpawning: 0
 --- !u!1 &1687960588
 GameObject:

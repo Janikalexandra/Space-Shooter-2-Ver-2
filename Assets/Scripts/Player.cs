@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] private int _shieldLives = 0;
     [SerializeField] private int _score;
 
+    [SerializeField] private int _healthPickup = 1;
     [SerializeField] private int _ammoPickUp = 3;
     [SerializeField] private int _ammoAmount = 15;
     [SerializeField] private int _tripleShotAmmo = 3;
@@ -173,6 +174,16 @@ public class Player : MonoBehaviour
         }
 
         ui_Manager.UpdateAmmo(_ammoAmount);
+    }
+
+    public void HealthPickup()
+    {
+        if(_lives <= 2)
+        {
+            _lives += _healthPickup;
+        }
+
+        ui_Manager.UpdateLives(_lives);
     }
 
     public void TripleShotActive()
