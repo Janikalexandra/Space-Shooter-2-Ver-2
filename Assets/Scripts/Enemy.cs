@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     private float _fireRate = 3.0f;
     private float _canFire = -1f;
 
-    private bool _isAlive = true;
+    public bool _isAlive = true;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -95,7 +95,7 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject, 2.8f);
         }
 
-        if (other.tag == "Laser")
+        if (other.tag == "Laser" || other.tag == "Missile")
         {
             Destroy(other.gameObject);
             if(_player != null)

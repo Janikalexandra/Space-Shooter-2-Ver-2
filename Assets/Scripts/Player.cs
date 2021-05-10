@@ -10,7 +10,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float _powerupSpeed = 2f;
     [SerializeField] private float _thrusterSpeed = 1f;
 
-    [SerializeField] private GameObject _laserPrefab;   
+    [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private GameObject _missilePrefab;
+
     [SerializeField] private GameObject _laserSpawn;
     [SerializeField] private GameObject _shield;
 
@@ -20,6 +22,9 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private GameObject _tripleShotSpawn;
 
+    // Thruster Amount 20
+    [SerializeField] private int _maxThrusterAmount = 20;
+    [SerializeField] private int _currentThrusterAmount;
     [SerializeField] private int _lives = 3;
     [SerializeField] private int _shieldLives = 0;
     [SerializeField] private int _score;
@@ -29,7 +34,9 @@ public class Player : MonoBehaviour
     [SerializeField] private int _ammoAmount = 15;
     [SerializeField] private int _tripleShotAmmo = 3;
 
+    [SerializeField] private bool _thrustersActive = false;
     [SerializeField] private bool _tripleShotActive = false;
+    [SerializeField] private bool _missileActive = false;
     [SerializeField] private bool _speedBoostEnabled = false;
     [SerializeField] private bool _shieldActive = false;
 
@@ -40,6 +47,7 @@ public class Player : MonoBehaviour
     private UIManager ui_Manager;
 
     private SpawnManager _spawnManager;
+    private Thruster _thruster;
 
     public HealthBar healthBar;
 
@@ -47,6 +55,9 @@ public class Player : MonoBehaviour
     void Start()
     {
 
+        _thruster = GameObject.Find("Canvas").GetComponentInChildren<Thruster>();
+        _currentThrusterAmount = _maxThrusterAmount;
+        _thruster.SetMaxHealth(_maxThrusterAmount);
 
         _playerAudioSource = GetComponent<AudioSource>();
 
@@ -119,14 +130,22 @@ public class Player : MonoBehaviour
 
     void Thrusters()
     {
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
+        {          
             _normalSpeed *= _thrusterSpeed;
+
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             _normalSpeed /= _thrusterSpeed;
         }
+    }
+
+    void UseThrusters(int damage)
+    {
+        _currentThrusterAmount -= damage;
+        _thruster.SetHealth(_currentThrusterAmount);
     }
 
     void ShootLaser()
@@ -140,9 +159,15 @@ public class Player : MonoBehaviour
             {
                 Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
                 _ammoAmount -= _tripleShotAmmo;
+            } 
+            else if (_missileActive == true)
+            {
+                Instantiate(_missilePrefab, transform.position, Quaternion.identity);
+                _missileActive = false;
+                _ammoAmount--;
             }
             else
-            {          
+            {   
                 Instantiate(_laserPrefab, _laserSpawn.transform.position, Quaternion.identity);
                 _ammoAmount--;
             }
@@ -176,11 +201,29 @@ public class Player : MonoBehaviour
         ui_Manager.UpdateAmmo(_ammoAmount);
     }
 
+    public void MissilePickup()
+    {
+        _missileActive = true;
+        _ammoAmount++;
+        ui_Manager.UpdateAmmo(_ammoAmount);
+    }
+
     public void HealthPickup()
     {
-        if(_lives <= 2)
+        /*if(_lives <= 2)
         {
             _lives += _healthPickup;
+        }*/
+
+        if(_lives == 1)
+        {
+            _lives += _healthPickup;
+            _leftEngine.SetActive(false);
+        }
+        else if(_lives == 2)
+        {
+            _lives += _healthPickup;
+            _rightEngine.SetActive(false);
         }
 
         ui_Manager.UpdateLives(_lives);
@@ -197,6 +240,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5f);
         _tripleShotActive = false;
     }
+
 
 
     public void Damage()
