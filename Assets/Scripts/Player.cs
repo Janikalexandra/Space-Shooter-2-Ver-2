@@ -51,6 +51,8 @@ public class Player : MonoBehaviour
 
     public HealthBar healthBar;
 
+    private CameraShake _cameraShake;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,7 +65,8 @@ public class Player : MonoBehaviour
 
         ui_Manager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-        
+
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 
         healthBar = GameObject.FindGameObjectWithTag("ShieldHealth").GetComponent<HealthBar>();
         healthBar.SetHealth(0);
@@ -272,26 +275,29 @@ public class Player : MonoBehaviour
             }
         }
 
-            _lives -= 1;
+        //_cameraShake.CameraShakes();
+        StartCoroutine(_cameraShake.CameraIsShaking());
+        _lives -= 1;
+        
 
             // Enable right engine smoke
-            if (_lives == 2)
-            {
-                _rightEngine.SetActive(true);
-            }
+        if (_lives == 2)
+        {
+            _rightEngine.SetActive(true);
+        }
             // Enabel left engine smoke
-            if (_lives == 1)
-            {
-                _leftEngine.SetActive(true);
-            }
+        if (_lives == 1)
+        {
+            _leftEngine.SetActive(true);
+        }
 
             ui_Manager.UpdateLives(_lives);
 
-            if (_lives < 1)
-            {
-                _spawnManager.OnPlayerDeath();
-                Destroy(this.gameObject);
-            }
+        if (_lives < 1)
+        {
+            _spawnManager.OnPlayerDeath();
+            Destroy(this.gameObject);
+        }
  }
 
 

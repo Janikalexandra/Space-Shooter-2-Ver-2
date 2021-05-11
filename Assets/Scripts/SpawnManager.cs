@@ -9,7 +9,10 @@ public class SpawnManager : MonoBehaviour
     private GameObject _enemy;
 
     [SerializeField] 
-    private GameObject _powerUp;
+    private GameObject _powerUps;
+
+    [SerializeField]
+    private GameObject _rarePowerUp;
 
     [SerializeField]
     private GameObject _enemyContainer;
@@ -19,6 +22,11 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private bool _stopSpawning = false;
 
+    [SerializeField]
+    private float chanceSpawnRare = 0.1f;
+
+    [SerializeField]
+    private GameObject[] _spawnArray;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,13 +59,21 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerUp()
     {
-        yield return new WaitForSeconds(3.0f);
+        //yield return new WaitForSeconds(3.0f);
         while (_stopSpawning == false)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7f, 0);
-            int randomPowerUp = Random.Range(0,6);
-            Instantiate(_powerups[randomPowerUp], posToSpawn, Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(3,8));
+            if(Random.Range(0f, 1f) > chanceSpawnRare)
+            {
+                int randomPowerUp = Random.Range(0, 6);
+                Instantiate(_powerups[randomPowerUp], posToSpawn, Quaternion.identity);
+                yield return new WaitForSeconds(Random.Range(3, 8));
+            }
+            else
+            {
+                Instantiate(_rarePowerUp, posToSpawn, Quaternion.identity);
+            }
+            yield return new WaitForSeconds(3.0f);
         }       
     }
 
