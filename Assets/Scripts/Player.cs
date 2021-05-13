@@ -1,45 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+
+    [Header("Player Settings")]
     [SerializeField] private float _normalSpeed = 5f;
     [SerializeField] private float _fireRate = 0.5f;
     [SerializeField] private float _canFire = -1f;
-    [SerializeField] private float _powerupSpeed = 2f;
-    [SerializeField] private float _thrusterSpeed = 1f;
-
-    [SerializeField] private GameObject _laserPrefab;
-    [SerializeField] private GameObject _missilePrefab;
-
-    [SerializeField] private GameObject _laserSpawn;
-    [SerializeField] private GameObject _shield;
-
+    [SerializeField] private int _lives = 3;
+    [SerializeField] private int _score;
     [SerializeField] private GameObject _rightEngine;
     [SerializeField] private GameObject _leftEngine;
+    public bool canUseThrusters = true;
 
-    [SerializeField] private GameObject _tripleShotPrefab;
-    [SerializeField] private GameObject _tripleShotSpawn;
-
-    // Thruster Amount 20
-    [SerializeField] private int _maxThrusterAmount = 20;
-    [SerializeField] private int _currentThrusterAmount;
-    [SerializeField] private int _lives = 3;
-    [SerializeField] private int _shieldLives = 0;
-    [SerializeField] private int _score;
-
-    [SerializeField] private int _healthPickup = 1;
+    [Header("Laser Settings")]
+    [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private GameObject _laserSpawn;
     [SerializeField] private int _ammoPickUp = 3;
     [SerializeField] private int _ammoAmount = 15;
-    [SerializeField] private int _tripleShotAmmo = 3;
 
-    [SerializeField] private bool _thrustersActive = false;
+
+    [Header("Triple Shot")]
+    [SerializeField] private GameObject _tripleShotPrefab;
+    [SerializeField] private GameObject _tripleShotSpawn;
+    [SerializeField] private int _tripleShotAmmo = 3;
     [SerializeField] private bool _tripleShotActive = false;
-    [SerializeField] private bool _missileActive = false;
-    [SerializeField] private bool _speedBoostEnabled = false;
+
+    [Header("Shield")]
+    [SerializeField] private GameObject _shield;
+    [SerializeField] private int _shieldLives = 0;
     [SerializeField] private bool _shieldActive = false;
 
+    [Header("Missile")]
+    [SerializeField] private GameObject _missilePrefab;
+    [SerializeField] private bool _missileActive = false;
+
+    [Header("Health")]
+    [SerializeField] private int _healthPickup = 1;
+    public HealthBar healthBar;
+
+    //[SerializeField] private float _powerupSpeed = 2f;    
+    [Header("Audio Settings")]
     [SerializeField] private AudioClip _destroyedClip;
     [SerializeField] private AudioClip _laserSoundClip;
     private AudioSource _playerAudioSource;
@@ -47,20 +51,16 @@ public class Player : MonoBehaviour
     private UIManager ui_Manager;
 
     private SpawnManager _spawnManager;
-    private Thruster _thruster;
 
-    public HealthBar healthBar;
+    
 
     private CameraShake _cameraShake;
+
+    private Thrusters _thrusters;
 
     // Start is called before the first frame update
     void Start()
     {
-
-        _thruster = GameObject.Find("Canvas").GetComponentInChildren<Thruster>();
-        _currentThrusterAmount = _maxThrusterAmount;
-        _thruster.SetMaxHealth(_maxThrusterAmount);
-
         _playerAudioSource = GetComponent<AudioSource>();
 
         ui_Manager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -68,10 +68,12 @@ public class Player : MonoBehaviour
 
         _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 
+        _thrusters = GameObject.Find("Canvas").GetComponentInChildren<Thrusters>();
+
         healthBar = GameObject.FindGameObjectWithTag("ShieldHealth").GetComponent<HealthBar>();
         healthBar.SetHealth(0);
         ui_Manager.UpdateAmmo(15);
-
+       
         if(_playerAudioSource == null)
         {
             Debug.LogError("Audio Source on the player is null!");
@@ -79,6 +81,11 @@ public class Player : MonoBehaviour
         else
         {
             _playerAudioSource.clip = _laserSoundClip;
+        }
+
+        if(_thrusters == null)
+        {
+            Debug.LogError("Thrusters Bar is null!");
         }
 
         if(ui_Manager == null)
@@ -98,30 +105,45 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
-
+        //Thrusters();
         // Framework Thruster
-        Thrusters();
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
             ShootLaser();
         }
+
+        CheckThruster();
+    }
+
+    void CheckThruster()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && canUseThrusters == true)
+        {
+            _normalSpeed = 10f;
+            _thrusters.UseThrusters(0.3f);
+        }
+        else
+        {
+            _thrusters.RegenerateFuel(0.2f);
+            _normalSpeed = 5f;
+        }
     }
 
     void CalculateMovement()
     {
-        
+
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);  
-        
+        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+
         transform.Translate(direction * _normalSpeed * Time.deltaTime);
 
 
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), transform.position.z);
 
-        if(transform.position.x > 11)
+        if (transform.position.x > 11)
         {
             transform.position = new Vector3(-11, transform.position.y, transform.position.z);
         }
@@ -131,25 +153,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Thrusters()
-    {
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {          
-            _normalSpeed *= _thrusterSpeed;
-
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            _normalSpeed /= _thrusterSpeed;
-        }
-    }
-
-    void UseThrusters(int damage)
-    {
-        _currentThrusterAmount -= damage;
-        _thruster.SetHealth(_currentThrusterAmount);
-    }
 
     void ShootLaser()
     {
@@ -245,7 +248,6 @@ public class Player : MonoBehaviour
     }
 
 
-
     public void Damage()
     {
         if (_shieldActive == true)
@@ -275,7 +277,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        //_cameraShake.CameraShakes();
         StartCoroutine(_cameraShake.CameraIsShaking());
         _lives -= 1;
         
@@ -301,7 +302,7 @@ public class Player : MonoBehaviour
  }
 
 
-    public void SpeedBoostActive()
+    /*public void SpeedBoostActive()
     {
         _speedBoostEnabled = true;
         _normalSpeed *= _powerupSpeed;
@@ -313,7 +314,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
         _speedBoostEnabled = false;
         _normalSpeed /= _powerupSpeed;
-    }
+    }*/
 
     public void ShieldsActive()
     {
