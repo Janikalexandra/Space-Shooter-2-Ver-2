@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
 
         healthBar = GameObject.FindGameObjectWithTag("ShieldHealth").GetComponent<HealthBar>();
         healthBar.SetHealth(0);
+
         ui_Manager.UpdateAmmo(15);
        
         if(_playerAudioSource == null)

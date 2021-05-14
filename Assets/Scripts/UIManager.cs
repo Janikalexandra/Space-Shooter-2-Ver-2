@@ -58,7 +58,7 @@ public class UIManager : MonoBehaviour
     //Ammo update
     public void UpdateAmmo(int ammoAmount)
     {
-        _ammoText.text = "Ammo: " + ammoAmount.ToString();
+        _ammoText.text = ammoAmount.ToString() + " /15";
 
         if(ammoAmount <= 0)
         {
