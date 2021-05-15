@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
 
     [Header("Player Settings")]
-    [SerializeField] private float _normalSpeed = 5f;
+    [SerializeField] private float _normalSpeed;
     [SerializeField] private float _fireRate = 0.5f;
     [SerializeField] private float _canFire = -1f;
     [SerializeField] private int _lives = 3;
@@ -41,6 +41,12 @@ public class Player : MonoBehaviour
     [Header("Health")]
     [SerializeField] private int _healthPickup = 1;
     public HealthBar healthBar;
+
+    [Header("Traps")]
+    [SerializeField] private bool _slowDownActive = false;
+    [SerializeField] private GameObject _sparkPrefab;
+    [SerializeField] private float _trapSpeed = 3f;
+
 
     //[SerializeField] private float _powerupSpeed = 2f;    
     [Header("Audio Settings")]
@@ -100,6 +106,7 @@ public class Player : MonoBehaviour
         }
 
         _shield.SetActive(false);
+        _sparkPrefab.SetActive(false);
     }
 
     // Update is called once per frame
@@ -119,15 +126,19 @@ public class Player : MonoBehaviour
 
     void CheckThruster()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && canUseThrusters == true)
+        if (Input.GetKey(KeyCode.LeftShift) && canUseThrusters == true && _slowDownActive == false)
         {
             _normalSpeed = 10f;
             _thrusters.UseThrusters(0.3f);
         }
+        else if(Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            //_thrusters.RegenerateFuel(0.2f);
+            _normalSpeed = 5f;
+        }
         else
         {
             _thrusters.RegenerateFuel(0.2f);
-            _normalSpeed = 5f;
         }
     }
 
@@ -242,10 +253,26 @@ public class Player : MonoBehaviour
         StartCoroutine(TripleShotPowerDown());
     }
 
+    public void SlowDownTrap()
+    {
+        _normalSpeed -= 3f;
+        _sparkPrefab.SetActive(true);
+        _slowDownActive = true;
+        StartCoroutine(SlowDown());
+    }
+
     IEnumerator TripleShotPowerDown()
     {
         yield return new WaitForSeconds(5f);
         _tripleShotActive = false;
+    }
+
+    IEnumerator SlowDown()
+    {
+        yield return new WaitForSeconds(5f);
+        _normalSpeed += _trapSpeed;
+        _slowDownActive = false;
+        _sparkPrefab.SetActive(false);
     }
 
 
