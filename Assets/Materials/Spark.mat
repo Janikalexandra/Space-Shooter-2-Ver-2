@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Spark
+  m_Shader: {fileID: -6465566751694194690, guid: 633aa44633855de45ba1b773c2f0d6dd, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_12460ec33b2147fbb3056f22df4ab98e: 0.5
+    - Vector1_5bda807cce954a4a9d920631252e6b19: 20
+    - Vector1_b34d879ff7b04fc582c3a7de12cf54fa: 2
+    m_Colors:
+    - Color_52aaeb3a2dfb47d6b0ddc48e72b52b75: {r: 1, g: 1, b: 1, a: 1}
+    - Vector2_01fc46b7b20347f780e5a5ae4e608ac1: {r: 0.1, g: -0.5, b: 0, a: 0}
+    - Vector2_b3a7520e275f459fb7298dccc37f1880: {r: 0, g: 0.5, b: 0, a: 0}
+  m_BuildTextureStacks: []
