@@ -9,6 +9,7 @@ TagManager:
   - EnemyLaser
   - ShieldHealth
   - Missile
+  - PlayerLaser
   layers:
   - Default
   - TransparentFX

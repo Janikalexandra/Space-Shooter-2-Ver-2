@@ -6,11 +6,17 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5.0f;
-
+    
+    [SerializeField]
+    private float avoidAmount;
+    
     private float _fireRate = 3.0f;
     private float _canFire = -1f;
 
     public bool _isAlive = true;
+
+    [SerializeField]
+    private bool hasDodged;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -25,6 +31,8 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        hasDodged = false;
+
         _audio = GetComponent<AudioSource>();
 
         if(_audio == null)
@@ -64,6 +72,17 @@ public class Enemy : MonoBehaviour
                 lasers[i].AssignEnemyLaser();
             }
 
+        }       
+    }
+
+    //Enemy avoids laser
+    public void AvoidLaser()
+    {
+        if(hasDodged == false)
+        {
+            hasDodged = true;
+            transform.Translate(avoidAmount,0,0);
+            StartCoroutine(GoBack());
         }
     }
 
@@ -95,7 +114,7 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject, 2.8f);
         }
 
-        if (other.tag == "Laser" || other.tag == "Missile")
+        if (other.tag == "PlayerLaser" || other.tag == "Missile")
         {
             Destroy(other.gameObject);
             if(_player != null)
@@ -111,6 +130,12 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject, 2.8f);
         }
     }
+
+    private IEnumerator GoBack()
+    {
+        yield return new WaitForSeconds(2f);
+        transform.Translate(-2, 0, 0);
+    } 
 
     
 }
