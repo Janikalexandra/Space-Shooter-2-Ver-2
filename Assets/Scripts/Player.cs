@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
 
     private UIManager ui_Manager;
 
-    private SpawnManager _spawnManager;
+    private WaveSpawner _waveSpawner;
 
     
 
@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
         _playerAudioSource = GetComponent<AudioSource>();
 
         ui_Manager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        _waveSpawner = GameObject.Find("WaveSpawner").GetComponent<WaveSpawner>();
 
         _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 
@@ -100,9 +100,9 @@ public class Player : MonoBehaviour
             Debug.LogError("UI Manager is null!");
         }
 
-        if(_spawnManager == null)
+        if(_waveSpawner == null)
         {
-            Debug.LogError("Spawn Manager is null!");
+            Debug.LogError("Wave Spawner is null!");
         }
 
         _shield.SetActive(false);
@@ -324,7 +324,7 @@ public class Player : MonoBehaviour
 
         if (_lives < 1)
         {
-            _spawnManager.OnPlayerDeath();
+            _waveSpawner.OnPlayerDeath();
             Destroy(this.gameObject);
         }
  }
