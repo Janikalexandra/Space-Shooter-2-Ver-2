@@ -25,6 +25,11 @@ public class LaserCheck : MonoBehaviour
         {
             _enemy.AvoidLaser();
         }
+
+        if (other.gameObject.CompareTag("Powerup"))
+        {
+            _enemy.ShootLaser();
+        }
     }
 
 }

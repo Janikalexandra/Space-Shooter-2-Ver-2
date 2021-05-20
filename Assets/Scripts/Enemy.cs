@@ -86,6 +86,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void ShootLaser()
+    {
+        Instantiate(_laserPrefab, transform.position, Quaternion.identity);       
+    }
+
     void CalculateMovement()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);

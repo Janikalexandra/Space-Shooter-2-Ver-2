@@ -11,7 +11,7 @@ public class WaveSpawner : MonoBehaviour
    public class Wave
    {
         public string name;
-        public Transform enemy;
+        public GameObject enemy;
         public int count;
         public float spawnRate;
    }
@@ -42,6 +42,12 @@ public class WaveSpawner : MonoBehaviour
 
     [SerializeField]
     private Text _waveCompletedText;
+
+    [SerializeField]
+    private GameObject _enemyContainer;
+
+    [SerializeField]
+    private GameObject _powerUpContainer;
 
     [SerializeField]
     private SpawnState state = SpawnState.COUNTING;
@@ -127,7 +133,7 @@ public class WaveSpawner : MonoBehaviour
 
             for (int i = 0; i < _wave.count; i++)
             {
-                SpawnEnemy(_wave.enemy);              
+                SpawnEnemy(_wave.enemy);            
                 yield return new WaitForSeconds(1f / _wave.spawnRate);
             }
 
@@ -161,11 +167,11 @@ public class WaveSpawner : MonoBehaviour
     }
 
 
-    void SpawnEnemy(Transform _enemy)
+    void SpawnEnemy(GameObject _enemy)
     {
         Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7f, 0);
-        Debug.Log("Spawning Enemy: " + _enemy.name);
-        Instantiate(_enemy, posToSpawn, Quaternion.identity);
+        GameObject newEnemy = Instantiate(_enemy, posToSpawn, Quaternion.identity);    
+        newEnemy.transform.parent = _enemyContainer.transform;
     }
 
     /*void SpawnPowerUps(Transform _powerUps)
