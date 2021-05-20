@@ -11,6 +11,7 @@ TagManager:
   - Missile
   - PlayerLaser
   - Powerup
+  - Smart Enemy Laser
   layers:
   - Default
   - TransparentFX

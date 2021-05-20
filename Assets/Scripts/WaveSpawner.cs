@@ -7,11 +7,14 @@ public class WaveSpawner : MonoBehaviour
 {
     public enum SpawnState { SPAWNING, WAITING, COUNTING };
 
-    [System.Serializable]
+   [System.Serializable]
    public class Wave
    {
         public string name;
-        public GameObject enemy;
+        public GameObject normalEnemy;
+        public GameObject smartEnemy;
+        public GameObject sidewayEnemy;
+        public GameObject Boss;
         public int count;
         public float spawnRate;
    }
@@ -128,12 +131,12 @@ public class WaveSpawner : MonoBehaviour
             _waveCompletedText.gameObject.SetActive(false);
             _waveText.text = "Spawning Wave: " + _wave.name.ToString();
             StartCoroutine(SetWaveText());
-            Debug.Log("Spawning Wave: " + _wave.name);
             state = SpawnState.SPAWNING;
 
             for (int i = 0; i < _wave.count; i++)
             {
-                SpawnEnemy(_wave.enemy);            
+                SpawnEnemy(_wave.normalEnemy);
+                SpawnEnemy(_wave.smartEnemy);
                 yield return new WaitForSeconds(1f / _wave.spawnRate);
             }
 

@@ -10,12 +10,18 @@ public class Laser : MonoBehaviour
     [SerializeField]
     private bool _isEnemyLaser = false;
 
+    [SerializeField]
+    private bool _isBackwardLaser = false;
     // Update is called once per frame
     void Update()
     {
         if(_isEnemyLaser == false)
         {
             MovementUp();
+        }
+        else if(_isBackwardLaser == true)
+        {
+            BackwardsLaser();
         }
         else
         {
@@ -38,6 +44,21 @@ public class Laser : MonoBehaviour
         }       
     }
 
+    void BackwardsLaser()
+    {
+        transform.Translate(Vector3.up * _speed * Time.deltaTime);
+
+        if(transform.position.y > 8f)
+        {
+            if(transform.parent != null)
+            {
+                Destroy(transform.parent.gameObject);
+            }
+
+            Destroy(this.gameObject);
+        }
+    }
+
     void MovementDown()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
@@ -56,6 +77,11 @@ public class Laser : MonoBehaviour
     public void AssignEnemyLaser()
     {
         _isEnemyLaser = true;
+    }
+
+    public void AssignBackwardsLaser()
+    {
+        _isBackwardLaser = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

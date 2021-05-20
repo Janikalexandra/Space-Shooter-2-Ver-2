@@ -21,6 +21,22 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject _laserPrefab;
 
+    [Header("Smart Enemy Settings")]
+    [SerializeField]
+    private GameObject _smartLaserPrefab;
+
+    [SerializeField]
+    private GameObject _backwardLaserSpawn;
+
+    [SerializeField]
+    private bool _isSmartEnemy;
+
+    [SerializeField]
+    private GameObject _playerCheck;
+
+    [SerializeField]
+    private GameObject _laserCheck;
+
     private Player _player;
 
     [SerializeField] private AudioClip _destroyedClip;
@@ -86,6 +102,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void ShootBackwardsLaser()
+    {
+        Instantiate(_smartLaserPrefab, _backwardLaserSpawn.transform.position, Quaternion.identity);
+    }
+
     public void ShootLaser()
     {
         Instantiate(_laserPrefab, transform.position, Quaternion.identity);       
@@ -116,10 +137,17 @@ public class Enemy : MonoBehaviour
             _audio.Play();
             _isAlive = false;
             Destroy(GetComponent<Collider2D>());
-            Destroy(this.gameObject, 2.8f);
+            Destroy(_laserCheck.gameObject);        
+            Destroy(this.gameObject, 2.8f);    
+            
+            if(_isSmartEnemy == true)
+            {
+                Destroy(_playerCheck);
+            }
+
         }
 
-        if (other.tag == "PlayerLaser" || other.tag == "Missile")
+        if (other.tag == "PlayerLaser" || other.tag == "Missile" || other.tag == "Smart Enemy Laser")
         {
             Destroy(other.gameObject);
             if(_player != null)
@@ -132,7 +160,14 @@ public class Enemy : MonoBehaviour
             _audio.Play();
             _isAlive = false;
             Destroy(GetComponent<Collider2D>());
+            Destroy(_laserCheck.gameObject);
             Destroy(this.gameObject, 2.8f);
+
+            if (_isSmartEnemy == true)
+            {
+                Destroy(_playerCheck);
+            }
+
         }
     }
 

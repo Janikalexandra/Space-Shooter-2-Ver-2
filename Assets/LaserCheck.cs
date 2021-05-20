@@ -7,6 +7,9 @@ public class LaserCheck : MonoBehaviour
 
     private Enemy _enemy;
 
+    [SerializeField]
+    private bool _isSmartEnemy;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +24,7 @@ public class LaserCheck : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("PlayerLaser"))
+        if (other.gameObject.CompareTag("PlayerLaser") && _isSmartEnemy == true)
         {
             _enemy.AvoidLaser();
         }

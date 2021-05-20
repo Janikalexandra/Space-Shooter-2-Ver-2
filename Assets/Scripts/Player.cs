@@ -153,7 +153,7 @@ public class Player : MonoBehaviour
         transform.Translate(direction * _normalSpeed * Time.deltaTime);
 
 
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), transform.position.z);
+        //transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), transform.position.z);
 
         if (transform.position.x > 11)
         {
