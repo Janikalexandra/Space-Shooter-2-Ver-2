@@ -15,7 +15,10 @@ public class WaveSpawner : MonoBehaviour
         public GameObject smartEnemy;
         public GameObject sidewayEnemy;
         public GameObject Boss;
-        public int count;
+        public int normalEnemyCount;
+        public int smartEnemyCount;
+        public int sidewayEnemyCount;
+
         public float spawnRate;
    }
     [SerializeField]
@@ -133,10 +136,21 @@ public class WaveSpawner : MonoBehaviour
             StartCoroutine(SetWaveText());
             state = SpawnState.SPAWNING;
 
-            for (int i = 0; i < _wave.count; i++)
+            for (int i = 0; i < _wave.normalEnemyCount; i++)
             {
-                SpawnEnemy(_wave.normalEnemy);
+                SpawnEnemy(_wave.normalEnemy);             
+                yield return new WaitForSeconds(1f / _wave.spawnRate);
+            }
+
+            for(int i = 0; i < _wave.smartEnemyCount; i++)
+            {
                 SpawnEnemy(_wave.smartEnemy);
+                yield return new WaitForSeconds(1f / _wave.spawnRate);
+            }
+
+            for (int i = 0; i < _wave.sidewayEnemyCount; i++)
+            {
+                SpawnSidewayEnemy(_wave.sidewayEnemy);
                 yield return new WaitForSeconds(1f / _wave.spawnRate);
             }
 
@@ -172,9 +186,22 @@ public class WaveSpawner : MonoBehaviour
 
     void SpawnEnemy(GameObject _enemy)
     {
-        Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7f, 0);
-        GameObject newEnemy = Instantiate(_enemy, posToSpawn, Quaternion.identity);    
-        newEnemy.transform.parent = _enemyContainer.transform;
+        if (_stopSpawning == false)
+        {
+            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7f, 0);
+            GameObject newEnemy = Instantiate(_enemy, posToSpawn, Quaternion.identity);
+            newEnemy.transform.parent = _enemyContainer.transform;
+        }
+    }
+
+    void SpawnSidewayEnemy(GameObject _enemy)
+    {
+        if(_stopSpawning == false)
+        {
+            Vector3 posToSpawn = new Vector3(12f, Random.Range(-3f, 3f), 0);
+            GameObject newEnemy = Instantiate(_enemy, posToSpawn, Quaternion.Euler(0f,0f,90f));
+            newEnemy.transform.parent = _enemyContainer.transform;
+        }
     }
 
     /*void SpawnPowerUps(Transform _powerUps)

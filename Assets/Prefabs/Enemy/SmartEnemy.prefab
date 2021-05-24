@@ -52,13 +52,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
-  avoidAmount: 2
+  _explosion: {fileID: 7047788164580165200, guid: 69c80795ee263c04fbd4c341c9b76366, type: 3}
   _isAlive: 1
   hasDodged: 0
   _laserPrefab: {fileID: 8256019189532742025, guid: 0e7674e357b8ed54e89937c4e0bde11a, type: 3}
+  _isSmartEnemy: 1
   _smartLaserPrefab: {fileID: 3427970830607805862, guid: 076fc2af7d44dfd498c14713ce97dbe4, type: 3}
   _backwardLaserSpawn: {fileID: 3522922924419197292}
-  _isSmartEnemy: 1
+  avoidAmount: 2
   _playerCheck: {fileID: 3522922925513283199}
   _laserCheck: {fileID: 3522922925909859652}
   _destroyedClip: {fileID: 0}
@@ -103,10 +104,10 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3154912113cbb4a498df6f571c74e18c, type: 3}
-  m_Color: {r: 1, g: 0.1745283, b: 0.30930385, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 0f1c9a9f21835c847bf4ad9ad5dc824f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
-  m_FlipY: 0
+  m_FlipY: 1
   m_DrawMode: 0
   m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
@@ -131,7 +132,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 5.12}
+    oldSize: {x: 5, y: 5}
     newSize: {x: 5.12, y: 5.12}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

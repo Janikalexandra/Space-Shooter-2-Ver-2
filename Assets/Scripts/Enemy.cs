@@ -6,10 +6,10 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5.0f;
-    
+
     [SerializeField]
-    private float avoidAmount;
-    
+    private GameObject _explosion;
+
     private float _fireRate = 3.0f;
     private float _canFire = -1f;
 
@@ -23,13 +23,16 @@ public class Enemy : MonoBehaviour
 
     [Header("Smart Enemy Settings")]
     [SerializeField]
+    private bool _isSmartEnemy;
+
+    [SerializeField]
     private GameObject _smartLaserPrefab;
 
     [SerializeField]
     private GameObject _backwardLaserSpawn;
 
     [SerializeField]
-    private bool _isSmartEnemy;
+    private float avoidAmount;
 
     [SerializeField]
     private GameObject _playerCheck;
@@ -113,14 +116,13 @@ public class Enemy : MonoBehaviour
     }
 
     void CalculateMovement()
-    {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
-
-        if (transform.position.y < -6f)
-        {
-            float randomX = Random.Range(-10f, 10f);
-            transform.position = new Vector3(randomX, 8.0f);
-        }
+    {    
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+            if (transform.position.y < -6f)
+            {
+                float randomX = Random.Range(-10f, 10f);
+                transform.position = new Vector3(randomX, 8.0f);
+            }     
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -132,13 +134,12 @@ public class Enemy : MonoBehaviour
                 _player.Damage();
             }
 
-            _anim.SetTrigger("OnEnemyDeath");
+            Instantiate(_explosion, transform.position, Quaternion.identity);
+            //_anim.SetTrigger("OnEnemyDeath");
             _speed = 0f;
             _audio.Play();
-            _isAlive = false;
-            Destroy(GetComponent<Collider2D>());
-            Destroy(_laserCheck.gameObject);        
-            Destroy(this.gameObject, 2.8f);    
+            _isAlive = false;        
+            Destroy(this.gameObject);    
             
             if(_isSmartEnemy == true)
             {
@@ -155,13 +156,12 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(10);
             }
 
-            _anim.SetTrigger("OnEnemyDeath");
+            Instantiate(_explosion, transform.position, Quaternion.identity);
+            //_anim.SetTrigger("OnEnemyDeath");
             _speed = 0f;
             _audio.Play();
             _isAlive = false;
-            Destroy(GetComponent<Collider2D>());
-            Destroy(_laserCheck.gameObject);
-            Destroy(this.gameObject, 2.8f);
+            Destroy(this.gameObject);
 
             if (_isSmartEnemy == true)
             {
