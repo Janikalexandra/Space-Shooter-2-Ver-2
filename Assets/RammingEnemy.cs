@@ -2,36 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SidewayEnemy : MonoBehaviour
+public class RammingEnemy : MonoBehaviour
 {
-    private float _speed = 3f;
+    [SerializeField]
+    private float _speed;
 
     [SerializeField]
     private GameObject _explosion;
 
-    private Player _player;
+    public bool ramPlayer = false;
 
-    [SerializeField]
     private AudioSource _audio;
 
-    [SerializeField]
-    private AudioClip _destroyedClip;
+    private Player _player;
 
-    public bool _isAlive = true;
+    public bool _isAlive;
 
     // Start is called before the first frame update
     void Start()
     {
+        _audio = GetComponent<AudioSource>();
         _player = GameObject.Find("Player").GetComponent<Player>();
 
-        _audio = GetComponent<AudioSource>();
-
-        if (_audio == null)
-        {
-            Debug.LogError("Enemy Audio Source is null!");
-        }
-
-        if (_player == null)
+        if(_player == null)
         {
             Debug.LogError("Player is null!");
         }
@@ -45,28 +38,41 @@ public class SidewayEnemy : MonoBehaviour
 
     void CalculateMovement()
     {
-        transform.Translate(Vector3.up * _speed * Time.deltaTime);
-
-        if (transform.position.x < -12f)
+        if (ramPlayer == true)
         {
-            float randomY = Random.Range(-3f, 3f);
-            transform.position = new Vector3(12f, randomY);
+            _speed = 10f;
         }
+        else 
+        {
+            _speed = 3f;
+        }
+
+        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        if (transform.position.y < -6f)
+        {
+            float randomX = Random.Range(-10f, 10f);
+            transform.position = new Vector3(randomX, 8.0f);
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag == "Player")
         {
+            Instantiate(_explosion, transform.position, Quaternion.identity);
+            
             if(_player != null)
             {
                 _player.Damage();
-            }            
+            }
+
+            Destroy(this.gameObject);
         }
 
         if (other.tag == "PlayerLaser" || other.tag == "Missile" || other.tag == "Enemy" || other.tag == "EnemyLaser")
         {
-            _player.AddScore(15);
+            _player.AddScore(10);
 
             Instantiate(_explosion, transform.position, Quaternion.identity);
             _audio.Play();

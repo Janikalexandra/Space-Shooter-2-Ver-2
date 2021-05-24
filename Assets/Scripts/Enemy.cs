@@ -79,7 +79,9 @@ public class Enemy : MonoBehaviour
     {
         CalculateMovement();
 
-        if(Time.time > _canFire && _isAlive == true)
+        EnemyShoot();
+
+        /*if(Time.time > _canFire && _isAlive == true)
         {
             _fireRate = Random.Range(3f, 7f);
             _canFire = Time.time + _fireRate;
@@ -91,7 +93,29 @@ public class Enemy : MonoBehaviour
                 lasers[i].AssignEnemyLaser();
             }
 
-        }       
+        } */      
+    }
+
+    private void EnemyShoot()
+    {
+        if (Time.time > _canFire && _isAlive == true)
+        {
+            _fireRate = Random.Range(3f, 7f);
+            _canFire = Time.time + _fireRate;
+            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaser();
+            }
+
+        }
+    }
+
+    public void RamTowardsPlayer()
+    {
+        _speed *= 2;
     }
 
     //Enemy avoids laser
