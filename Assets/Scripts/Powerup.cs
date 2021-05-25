@@ -4,28 +4,42 @@ using UnityEngine;
 
 
 public class Powerup : MonoBehaviour
+{
+
+    [SerializeField] private float _speed = 3f;
+
+    [SerializeField] private float _powerupSpeed = 7f;
+
+    private Player _player;
+
+    private Vector2 _playerPos;
+    private Vector2 position;
+
+    [SerializeField] // 0 = Triple Shot 1 = Speed 2 = Shields
+    private int powerupID;
+
+    [SerializeField] private AudioClip _clip;  
+
+
+    private void Start()
     {
+        _player = GameObject.Find("Player").GetComponent<Player>();
+        _playerPos = _player.transform.position;
 
-        [SerializeField] private float _speed = 3f;
-
-        private Player _player;
-
-        [SerializeField] // 0 = Triple Shot 1 = Speed 2 = Shields
-        private int powerupID;
-
-        [SerializeField] private AudioClip _clip;
+        position = gameObject.transform.position;
+    }
 
 
-        // Update is called once per frame
-        void Update()
+    // Update is called once per frame
+    void Update()
+    {       
+        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+      
+        if (transform.position.y < -6)
         {
-            transform.Translate(Vector3.down * _speed * Time.deltaTime);
-
-            if (transform.position.y < -6)
-            {
-                Destroy(this.gameObject);
-            }
+            Destroy(this.gameObject);
         }
+    }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -73,10 +87,22 @@ public class Powerup : MonoBehaviour
             }
 
             if(other.gameObject.CompareTag("EnemyLaser"))
-        {
-            Destroy(this.gameObject);
-        }
+            {
+                Destroy(this.gameObject);
+            }
 
         }
 
+    // Go to players position
+    private void FindPlayer()
+    {
+        float movement = _powerupSpeed * Time.deltaTime;
+        transform.position = Vector2.MoveTowards(transform.position, _playerPos, movement);       
     }
+   
+    public void PlayerClose()
+    {       
+        FindPlayer();
+    }
+
+}

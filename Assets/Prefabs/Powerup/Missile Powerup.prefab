@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1778527117214956543}
   m_Layer: 0
   m_Name: Missile Powerup
-  m_TagString: Untagged
+  m_TagString: Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,8 +136,8 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: -0.018211842, y: -0.16390884}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    border: {x: 1.7199999, y: 0.65999997, z: 1.68, w: 0.45}
+    pivot: {x: 0.5018226, y: 0.8807209}
     oldSize: {x: 6.4, y: 6.4}
     newSize: {x: 6.4, y: 6.4}
     adaptiveTilingThreshold: 0.5
