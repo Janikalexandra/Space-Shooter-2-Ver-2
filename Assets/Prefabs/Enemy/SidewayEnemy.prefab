@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7430579193611886133}
   m_Layer: 0
   m_Name: SidewayEnemy
-  m_TagString: Enemy
+  m_TagString: SidewayEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

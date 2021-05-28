@@ -28,6 +28,12 @@ public class UIManager : MonoBehaviour
 
     private bool _gameOver;
 
+    [SerializeField]
+    private Text _gameFinishedText;
+
+    [SerializeField]
+    private GameObject _MainMenuButton;
+
     private Game_Manager _gameManager;
 
     [SerializeField] 
@@ -39,6 +45,8 @@ public class UIManager : MonoBehaviour
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
         _noAmmoText.gameObject.SetActive(false);
+        _gameFinishedText.gameObject.SetActive(false);
+        _MainMenuButton.SetActive(false);
 
         _gameManager = GameObject.Find("GameManager").GetComponent<Game_Manager>();
 
@@ -88,6 +96,12 @@ public class UIManager : MonoBehaviour
         _gameOverText.gameObject.SetActive(true);
         _restartText.gameObject.SetActive(true);
         StartCoroutine(GameOverFlickerRoutine());
+    }
+
+    public void GameWon()
+    {
+        _gameFinishedText.gameObject.SetActive(true);
+        _MainMenuButton.SetActive(true);
     }
 
     IEnumerator GameOverFlickerRoutine()

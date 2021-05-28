@@ -12,6 +12,9 @@ TagManager:
   - PlayerLaser
   - Powerup
   - Smart Enemy Laser
+  - Boss
+  - Boss Projectile
+  - SidewayEnemy
   layers:
   - Default
   - TransparentFX
@@ -20,7 +23,7 @@ TagManager:
   - Water
   - UI
   - Post Processing
-  - 
+  - Projectile
   - 
   - 
   - 

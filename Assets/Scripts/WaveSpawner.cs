@@ -22,6 +22,7 @@ public class WaveSpawner : MonoBehaviour
         public int smartEnemyCount;
         public int sidewayEnemyCount;
         public int rammingEnemyCount;
+        public int bossEnemyCount;
 
         public float spawnRate;
    }
@@ -60,12 +61,21 @@ public class WaveSpawner : MonoBehaviour
     private GameObject _powerUpContainer;
 
     [SerializeField]
+    private GameObject _uiHealth;
+
+    private UIManager _uiManager;
+
+    [SerializeField]
     private SpawnState state = SpawnState.COUNTING;
 
     private void Start()
     {
+        _uiHealth.SetActive(false);
+
         waveCountdown = timeBetweenWaves;
         _waveCompletedText.gameObject.SetActive(false);
+
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     private void Update()
@@ -98,8 +108,7 @@ public class WaveSpawner : MonoBehaviour
     }
 
     void WaveCompleted()
-    {
-        Debug.Log("Wave Completed!");
+    {        
         _waveCompletedText.gameObject.SetActive(true);
         StartCoroutine(WaveCompleteFlicker());
 
@@ -108,7 +117,7 @@ public class WaveSpawner : MonoBehaviour
 
         if(nextWave + 1 > enemyWaves.Length - 1)
         {
-            nextWave = 0;
+            _uiManager.GameWon();
             Debug.Log("Completed all waves!");
         }
         else
@@ -123,7 +132,7 @@ public class WaveSpawner : MonoBehaviour
         if(searchCountdown <= 0f)
         {
             searchCountdown = 1f;
-            if (GameObject.FindGameObjectWithTag("Enemy") == null)
+            if (GameObject.FindGameObjectWithTag("Enemy") == null && GameObject.FindGameObjectWithTag("Boss") == null)
             {
                 return false;
             }
@@ -139,6 +148,13 @@ public class WaveSpawner : MonoBehaviour
             _waveText.text = "Spawning Wave: " + _wave.name.ToString();
             StartCoroutine(SetWaveText());
             state = SpawnState.SPAWNING;
+
+            for (int i = 0; i < _wave.bossEnemyCount; i++)
+            {
+                _uiHealth.SetActive(true);
+                SpawnBoss(_wave.Boss);
+                yield return new WaitForSeconds(1f / _wave.spawnRate);
+            }
 
             for (int i = 0; i < _wave.normalEnemyCount; i++)
             {
@@ -208,8 +224,18 @@ public class WaveSpawner : MonoBehaviour
     {
         if(_stopSpawning == false)
         {
-            Vector3 posToSpawn = new Vector3(12f, Random.Range(-3f, 3f), 0);
+            Vector3 posToSpawn = new Vector3(12f, Random.Range(-1f, 3f), 0);
             GameObject newEnemy = Instantiate(_enemy, posToSpawn, Quaternion.Euler(0f,0f,90f));
+            newEnemy.transform.parent = _enemyContainer.transform;
+        }
+    }
+
+    void SpawnBoss(GameObject _enemy)
+    {
+        if (_stopSpawning == false)
+        {
+            Vector3 posToSpawn = new Vector3(-0.1f, 10.18f, 0);
+            GameObject newEnemy = Instantiate(_enemy, posToSpawn, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
         }
     }

@@ -35,6 +35,8 @@ public class SidewayEnemy : MonoBehaviour
         {
             Debug.LogError("Player is null!");
         }
+
+        _isAlive = true;
     }
 
     // Update is called once per frame
@@ -61,6 +63,10 @@ public class SidewayEnemy : MonoBehaviour
             if(_player != null)
             {
                 _player.Damage();
+                Instantiate(_explosion, transform.position, Quaternion.identity);
+                _audio.Play();
+                _isAlive = false;
+                Destroy(this.gameObject);
             }            
         }
 

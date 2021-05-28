@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     [Header("Audio Settings")]
     [SerializeField] private AudioClip _destroyedClip;
     [SerializeField] private AudioClip _laserSoundClip;
+    [SerializeField] private AudioClip _hurtClip;
     private AudioSource _playerAudioSource;
 
     private UIManager ui_Manager;
@@ -305,6 +306,8 @@ public class Player : MonoBehaviour
             }
         }
 
+        _playerAudioSource.clip = _hurtClip;
+        _playerAudioSource.Play();
         StartCoroutine(_cameraShake.CameraIsShaking());
         _lives -= 1;
         
