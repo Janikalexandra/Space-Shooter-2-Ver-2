@@ -72,6 +72,11 @@ public class UIManager : MonoBehaviour
         {
             NoAmmoSequence();
         }
+        else
+        {
+            _noAmmoText.gameObject.SetActive(false);
+            StopCoroutine(NoAmmoFlickerRoutine());
+        }
     }
 
     public void UpdateLives(int currentLives)

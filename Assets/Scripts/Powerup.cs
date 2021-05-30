@@ -23,9 +23,6 @@ public class Powerup : MonoBehaviour
 
     private void Start()
     {
-        _player = GameObject.Find("Player").GetComponent<Player>();
-        _playerPos = _player.transform.position;
-
         position = gameObject.transform.position;
     }
 
@@ -96,6 +93,9 @@ public class Powerup : MonoBehaviour
     // Go to players position
     private void FindPlayer()
     {
+        _player = GameObject.Find("Player").GetComponent<Player>();
+        _playerPos = _player.transform.position;
+
         float movement = _powerupSpeed * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position, _playerPos, movement);       
     }

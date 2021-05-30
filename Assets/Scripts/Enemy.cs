@@ -4,19 +4,34 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Universal Enemy Settings")]
     [SerializeField]
     private float _speed = 5.0f;
 
     [SerializeField]
     private GameObject _explosion;
 
+    [SerializeField] private AudioClip _destroyedClip;
+    [SerializeField] private AudioClip _shieldDestroyed;
+    [SerializeField] private AudioSource _audio;
+
+
+    [Header("Normal Enemy Settings")]
+
+    [SerializeField]
+    private bool _normalEnemy = false;
+
+    [SerializeField]
+    private GameObject _enemyShield;
+
+    [SerializeField]
+    private bool _shieldActive = false;
+
     private float _fireRate = 3.0f;
     private float _canFire = -1f;
 
     public bool _isAlive = true;
 
-    [SerializeField]
-    private bool hasDodged;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -24,6 +39,9 @@ public class Enemy : MonoBehaviour
     [Header("Smart Enemy Settings")]
     [SerializeField]
     private bool _isSmartEnemy;
+
+    [SerializeField]
+    private bool hasDodged;
 
     [SerializeField]
     private GameObject _smartLaserPrefab;
@@ -42,14 +60,17 @@ public class Enemy : MonoBehaviour
 
     private Player _player;
 
-    [SerializeField] private AudioClip _destroyedClip;
-    [SerializeField] private AudioSource _audio;
-
     private Animator _anim;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        if(_normalEnemy == true)
+        {
+            _enemyShield.SetActive(false);
+        }       
+
         hasDodged = false;
 
         _audio = GetComponent<AudioSource>();
@@ -72,6 +93,14 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("Animator is null!");
         }
+
+        if(_normalEnemy == true)
+        {
+            //40% chance to spawn with a shield
+            if(Random.value > 0.6)
+            CalculateShieldChance();
+        }
+
     }
 
     // Update is called once per frame
@@ -80,20 +109,13 @@ public class Enemy : MonoBehaviour
         CalculateMovement();
 
         EnemyShoot();
+    
+    }
 
-        /*if(Time.time > _canFire && _isAlive == true)
-        {
-            _fireRate = Random.Range(3f, 7f);
-            _canFire = Time.time + _fireRate;
-            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
-            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-
-            for (int i = 0; i < lasers.Length; i++)
-            {
-                lasers[i].AssignEnemyLaser();
-            }
-
-        } */      
+    private void CalculateShieldChance()
+    {
+        _shieldActive = true;
+        _enemyShield.SetActive(true);
     }
 
     private void EnemyShoot()
@@ -158,12 +180,22 @@ public class Enemy : MonoBehaviour
                 _player.Damage();
             }
 
-            Instantiate(_explosion, transform.position, Quaternion.identity);
-            //_anim.SetTrigger("OnEnemyDeath");
-            _speed = 0f;
-            _audio.Play();
-            _isAlive = false;        
-            Destroy(this.gameObject);    
+            if(_shieldActive == true)
+            {
+                _audio.clip = _shieldDestroyed;
+                _audio.Play();
+                _shieldActive = false;
+                _enemyShield.SetActive(false);
+                return;
+            }
+            else
+            {
+                Instantiate(_explosion, transform.position, Quaternion.identity);               
+                _speed = 0f;
+                _audio.Play();
+                _isAlive = false;
+                Destroy(this.gameObject);
+            }
             
             if(_isSmartEnemy == true)
             {
@@ -180,18 +212,27 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(10);
             }
 
-            Instantiate(_explosion, transform.position, Quaternion.identity);
-            //_anim.SetTrigger("OnEnemyDeath");
-            _speed = 0f;
-            _audio.Play();
-            _isAlive = false;
-            Destroy(this.gameObject);
-
-            if (_isSmartEnemy == true)
+            if(_shieldActive == true)
             {
-                Destroy(_playerCheck);
+                _audio.clip = _shieldDestroyed;
+                _audio.Play();
+                _shieldActive = false;
+                _enemyShield.SetActive(false);
+                return;
             }
+            else
+            {
+                Instantiate(_explosion, transform.position, Quaternion.identity);
+                _speed = 0f;
+                _audio.Play();
+                _isAlive = false;
+                Destroy(this.gameObject);
 
+                if (_isSmartEnemy == true)
+                {
+                    Destroy(_playerCheck);
+                }
+            }          
         }
     }
 

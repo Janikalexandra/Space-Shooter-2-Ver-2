@@ -23,6 +23,7 @@ public class Boss : MonoBehaviour
     private bool _vulnerable = true;
     private bool movedRight = false;  
 
+    [Header("Boss Positions")]
     private Vector3 _currentPos;
     private Vector3 _onePoint = new Vector3(6f, 3.3f,0);
     private Vector3 _secondPoint = new Vector3(-6, 3.3f, 0);

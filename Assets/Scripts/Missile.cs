@@ -15,7 +15,10 @@ public class Missile : MonoBehaviour
     void Start()
     {
         //enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Enemy>();
-        target = enemy.transform;
+        if(GameObject.FindGameObjectWithTag("Enemy") != null)
+        {
+            target = enemy.transform;
+        }
     }
 
     // Update is called once per frame
