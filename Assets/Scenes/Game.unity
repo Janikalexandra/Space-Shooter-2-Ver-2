@@ -1890,6 +1890,7 @@ MonoBehaviour:
   _rightEngine: {fileID: 452420564}
   _leftEngine: {fileID: 1101274182}
   canUseThrusters: 1
+  isAlive: 1
   _laserPrefab: {fileID: 4787004128510204655, guid: b04ba80741b4ef84292a110886b6bdf3, type: 3}
   _laserSpawn: {fileID: 73343108}
   _ammoPickUp: 3
@@ -2334,11 +2335,13 @@ MonoBehaviour:
     smartEnemy: {fileID: 1651726274553604220, guid: 88141c0e4113c77448536f8efe045cb7, type: 3}
     sidewayEnemy: {fileID: 7430579193611886139, guid: aa3428cd8534eac4c890d1427c314313, type: 3}
     rammingEnemy: {fileID: 4498468949998767628, guid: b2894a2be756ae44ba9bd76fdce3fc28, type: 3}
+    zigzagEnemy: {fileID: 0}
     Boss: {fileID: 0}
     normalEnemyCount: 4
     smartEnemyCount: 3
     sidewayEnemyCount: 0
     rammingEnemyCount: 2
+    zigzagEnemyCount: 0
     bossEnemyCount: 0
     spawnRate: 0.3
   - name: Second Wave
@@ -2346,23 +2349,27 @@ MonoBehaviour:
     smartEnemy: {fileID: 1651726274553604220, guid: 88141c0e4113c77448536f8efe045cb7, type: 3}
     sidewayEnemy: {fileID: 7430579193611886139, guid: aa3428cd8534eac4c890d1427c314313, type: 3}
     rammingEnemy: {fileID: 0}
+    zigzagEnemy: {fileID: 0}
     Boss: {fileID: 0}
     normalEnemyCount: 7
     smartEnemyCount: 5
     sidewayEnemyCount: 3
     rammingEnemyCount: 0
+    zigzagEnemyCount: 0
     bossEnemyCount: 0
     spawnRate: 0.4
   - name: Third Wave
     normalEnemy: {fileID: 2742678942728366333, guid: 6aa15a46c6e92ec479cc90a47a4bac5b, type: 3}
-    smartEnemy: {fileID: 1651726274553604220, guid: 88141c0e4113c77448536f8efe045cb7, type: 3}
+    smartEnemy: {fileID: 0}
     sidewayEnemy: {fileID: 7430579193611886139, guid: aa3428cd8534eac4c890d1427c314313, type: 3}
     rammingEnemy: {fileID: 0}
+    zigzagEnemy: {fileID: 6445203343293494462, guid: c8f1d28f65c313f4e884ef0a56c333d4, type: 3}
     Boss: {fileID: 0}
     normalEnemyCount: 5
-    smartEnemyCount: 2
+    smartEnemyCount: 0
     sidewayEnemyCount: 7
     rammingEnemyCount: 0
+    zigzagEnemyCount: 2
     bossEnemyCount: 0
     spawnRate: 0.4
   - name: BOSS
@@ -2370,11 +2377,13 @@ MonoBehaviour:
     smartEnemy: {fileID: 0}
     sidewayEnemy: {fileID: 7430579193611886139, guid: aa3428cd8534eac4c890d1427c314313, type: 3}
     rammingEnemy: {fileID: 0}
+    zigzagEnemy: {fileID: 0}
     Boss: {fileID: 5003515526294889287, guid: b99da456600a0db4a9775afd0f088da6, type: 3}
     normalEnemyCount: 0
     smartEnemyCount: 0
     sidewayEnemyCount: 10
     rammingEnemyCount: 0
+    zigzagEnemyCount: 0
     bossEnemyCount: 1
     spawnRate: 0.4
   timeBetweenWaves: 5

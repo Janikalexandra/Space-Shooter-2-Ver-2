@@ -16,12 +16,14 @@ public class WaveSpawner : MonoBehaviour
         public GameObject smartEnemy;
         public GameObject sidewayEnemy;
         public GameObject rammingEnemy;
+        public GameObject zigzagEnemy;
         public GameObject Boss;
 
         public int normalEnemyCount;
         public int smartEnemyCount;
         public int sidewayEnemyCount;
         public int rammingEnemyCount;
+        public int zigzagEnemyCount;
         public int bossEnemyCount;
 
         public float spawnRate;
@@ -177,6 +179,12 @@ public class WaveSpawner : MonoBehaviour
             for (int i = 0; i < _wave.rammingEnemyCount; i++)
             {
                 SpawnEnemy(_wave.rammingEnemy);
+                yield return new WaitForSeconds(1f / _wave.spawnRate);
+            }
+
+            for (int i = 0; i < _wave.zigzagEnemyCount; i++)
+            {
+                SpawnEnemy(_wave.zigzagEnemy);
                 yield return new WaitForSeconds(1f / _wave.spawnRate);
             }
 

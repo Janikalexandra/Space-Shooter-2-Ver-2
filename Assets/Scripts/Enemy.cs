@@ -171,6 +171,15 @@ public class Enemy : MonoBehaviour
             }     
     }
 
+    void DestroyThisGameObject()
+    {
+        Instantiate(_explosion, transform.position, Quaternion.identity);
+        _speed = 0f;
+        _audio.Play();
+        _isAlive = false;
+        Destroy(this.gameObject);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -190,11 +199,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                Instantiate(_explosion, transform.position, Quaternion.identity);               
-                _speed = 0f;
-                _audio.Play();
-                _isAlive = false;
-                Destroy(this.gameObject);
+                DestroyThisGameObject();
             }
             
             if(_isSmartEnemy == true)
@@ -222,11 +227,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                Instantiate(_explosion, transform.position, Quaternion.identity);
-                _speed = 0f;
-                _audio.Play();
-                _isAlive = false;
-                Destroy(this.gameObject);
+                DestroyThisGameObject();
 
                 if (_isSmartEnemy == true)
                 {

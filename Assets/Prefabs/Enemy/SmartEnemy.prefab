@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2766922885548430799}
+  - component: {fileID: -563457191978288273}
   - component: {fileID: 4656277246440716837}
   - component: {fileID: 9210961941584451888}
   - component: {fileID: 4229946791530253340}
@@ -39,6 +40,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-563457191978288273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651726274553604220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ebf508465aacb40bd3ae029b04af54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4656277246440716837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,17 +66,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _explosion: {fileID: 7047788164580165200, guid: 69c80795ee263c04fbd4c341c9b76366, type: 3}
+  _destroyedClip: {fileID: 0}
+  _shieldDestroyed: {fileID: 0}
+  _audio: {fileID: 0}
+  _normalEnemy: 0
+  _enemyShield: {fileID: 0}
+  _shieldActive: 0
   _isAlive: 1
-  hasDodged: 0
   _laserPrefab: {fileID: 8256019189532742025, guid: 0e7674e357b8ed54e89937c4e0bde11a, type: 3}
   _isSmartEnemy: 1
+  hasDodged: 0
   _smartLaserPrefab: {fileID: 3427970830607805862, guid: 076fc2af7d44dfd498c14713ce97dbe4, type: 3}
   _backwardLaserSpawn: {fileID: 3522922924419197292}
   avoidAmount: 2
   _playerCheck: {fileID: 3522922925513283199}
   _laserCheck: {fileID: 3522922925909859652}
-  _destroyedClip: {fileID: 0}
-  _audio: {fileID: 0}
 --- !u!212 &9210961941584451888
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -492,3 +509,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isSmartEnemy: 1
+  _isRammingEnemy: 0

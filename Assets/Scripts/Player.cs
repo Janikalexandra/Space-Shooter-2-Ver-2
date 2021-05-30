@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _rightEngine;
     [SerializeField] private GameObject _leftEngine;
     public bool canUseThrusters = true;
+    public bool isAlive = true;
 
     [Header("Laser Settings")]
     [SerializeField] private GameObject _laserPrefab;
@@ -327,6 +328,7 @@ public class Player : MonoBehaviour
 
         if (_lives < 1)
         {
+            isAlive = false;
             _waveSpawner.OnPlayerDeath();
             Destroy(this.gameObject);
         }
